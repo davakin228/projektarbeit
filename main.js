@@ -1,101 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  
-}
-body {
-  font-family: "Dancing Script", cursive;
-  height: 100vh;
-  overflow: hidden;
-  text-align: center;
-  
-}
-#sakura-container {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-/*   background-image: url(https://raw.githubusercontent.com/StacyBetsa/tinkerteens/refs/heads/main/Image20260113193508.gif); */
-  background-image: url(https://github.com/StacyBetsa/tinkerteens/blob/main/%D1%81%D0%B0%D0%BA%D1%83%D1%80%D0%B0%20%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE.webp?raw=true);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  
-  
-}
-.tree-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 100%);
-  pointer-events: none;
-  
-}
-.title {
-   font-size:50px;
-   color: black;
-  -webkit-text-stroke: 0.3px  white;
-   text-stroke: 0.3px  white;
-   letter-spacing: 4px;                        text-shadow:
-  1px 1px 2px pink,
-  0 0 1em pink,
-  0 0 0.2em purple;
-}
-.petal {
-  position: absolute;
-  height: 15px;
-  width: 15px;
-  background: radial-gradient(ellipse at center, #c49bc1 0%, #ba97b7 100%);
-  border-radius: 60% 5% 60% 5%;
-  animation: fall 2s linear infinite;
-  pointer-events: none;
-  
-  
-}
-@keyframes fall {
-  0% {
-    transform: translateY(-100px) rotate(0deg);
-      opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(360deg);
-    opacity: 0.5; 
-  }
-  
-  
-  
-}
-.point {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(circle, rgba(255,182,193,0.8), rgba(219,112,147,0.6));
-  border-radius: 50%;
-  cursor: pointer;
-  animation: pulse 2s infinite;
-  box-shadow: 0 0 20px rgba(255, 182, 193,  0.6);
-  transition: all 0.3s ease;  
-}
+  function createPetal() {
+  const petal=document.createElement('div');
+    petal.className="petal";
+    petal.style.left=Math.random()*100+"%";
+    petal.style.top="-10vh";
+    petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+     petal.style.animationDelay = Math.random() * 5  + 's';
+    const size = Math.random()*10+10;
+    petal.style.width = size + "px"
+    petal.style.height = size + "px"
 
-.point:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 30px rgba(255,182,193,0.9);
-}
-@keyframes pulse{
-  0%{
-    opacity: 0.7;
-    transform: scale(1);
+
+    document.getElementById("sakura-container").appendChild(petal);
+    setTimeout(() => petal.remove(), 10000)
+
   }
-  50%{
-      opacity: 1;
-    transform: scale(1.05);
-  }
-  100%{
-      opacity: 0.7;
-    transform: scale(1);
-    
-  }
-}
+
+  setInterval(createPetal, 300);
+      
+const points = document.querySelectorAll(".point")
+
+const popup = document.getElementById("popup")
+
+const popupTitle = document.getElementById("popup-text")

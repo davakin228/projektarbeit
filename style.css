@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
 * {
   margin: 0;
@@ -39,22 +40,16 @@ body {
    color: black;
   -webkit-text-stroke: 0.3px  white;
    text-stroke: 0.3px  white;
-   letter-spacing: 4px;                        text-shadow:
-  1px 1px 2px pink,
+   letter-spacing: 4px;
+  text-shadow: 1px 1px 2px pink,
   0 0 1em pink,
   0 0 0.2em purple;
 }
 .petal {
   position: absolute;
-  height: 15px;
-  width: 15px;
-  background: radial-gradient(ellipse at center, #c49bc1 0%, #ba97b7 100%);
- 
-  border-radius: 60% 5% 60% 5%;
-  animation: fall 2s linear infinite;
   pointer-events: none;
-  
-  
+  border-radius: 60% 5% 60% 5%;
+  background: radial-gradient(ellipse at center, #c49bc1 0%, #ba97b7 100%);
 }
 @keyframes fall {
   0% {
@@ -105,27 +100,58 @@ body {
   background-image: url(https://github.com/davakin228/fladeSchule/blob/main/flade%20schule.jpg?raw=true);
   background-size: contain;
 }
-#2 {
-  background-image: url();
+#Schule_1980 {
+  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/schule%20flade.jpg?raw=true);
+  background-size: cover;
+}
+#Schule_1990 {
+  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/photo_2026-02-20_14-00-18.jpg?raw=true);
+  background-size: cover;
+}
+#Schule_2000 {
+  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/andere%20Schule.jpg?raw=true);
+  background-size: cover;
+}
+#Schule_2010 {
+  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/aa.jpg?raw=true);
+  background-size: cover;
+}
+#Schule_heute {
+  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/halle.jpg?raw=true);
   background-size: contain;
 }
-#3 {
-  background-image: url();
-  background-size: contain;
+
+.popup {
+   position: fixed;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 400px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+  border: 1px solid black;
+  opacity: 0;
+  transform: translateY(10px) scale(0.95);
+  transition: opacity 0.4s ease, transform 0.6s ease;
+  z-index: 10;
+  pointer-events: none;
+  
 }
-#2 {
-  background-image: url();
-  background-size: contain;
+
+.popup.active {
+  opacity: 1;
+  transform: translateY(0px) жscale(1);
+  pointer-events: all;
 }
-#4 {
-  background-image: url();
-  background-size: contain;
+
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9;
+  transition: opacity 0.4s ease;
 }
-#5 {
-  background-image: url();
-  background-size: contain;
-}
-#6 {
-  background-image: url();
-  background-size: contain;
+
+#overlay.active {
+  display: block;
 }

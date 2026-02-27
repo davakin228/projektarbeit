@@ -69,11 +69,9 @@
       align-items: center;
       justify-content: center;
       padding: 60px 24px 80px;
-      gap: 0;
     }
 
     .badge {
-      font-family: 'Cormorant Garamond', serif;
       font-size: 11px;
       font-weight: 400;
       letter-spacing: 4px;
@@ -90,7 +88,6 @@
     }
 
     .welcome-line {
-      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-weight: 300;
       font-size: clamp(16px, 3vw, 22px);
@@ -110,7 +107,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: none;
       letter-spacing: -1px;
       margin-bottom: 8px;
       opacity: 0;
@@ -152,7 +148,6 @@
     }
 
     .subtitle {
-      font-family: 'Cormorant Garamond', serif;
       font-size: clamp(14px, 2.5vw, 18px);
       font-weight: 300;
       color: var(--text-mid);
@@ -178,9 +173,8 @@
       letter-spacing: 2px;
       padding: 16px 44px;
       border-radius: 60px;
-      border: none;
       cursor: pointer;
-      box-shadow: 0 8px 32px rgba(212,104,126,0.35), 0 2px 8px rgba(212,104,126,0.2);
+      box-shadow: 0 8px 32px rgba(212,104,126,0.35);
       transition: all 0.3s ease;
       margin-bottom: 52px;
       opacity: 0;
@@ -189,20 +183,10 @@
       overflow: hidden;
     }
 
-    .cta-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-      border-radius: 60px;
-    }
-
     .cta-btn:hover {
       transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 14px 40px rgba(212,104,126,0.45), 0 4px 12px rgba(212,104,126,0.25);
+      box-shadow: 0 14px 40px rgba(212,104,126,0.45);
     }
-
-    .cta-btn:active { transform: translateY(0) scale(0.99); }
 
     .cta-arrow {
       font-size: 20px;
@@ -211,13 +195,11 @@
     .cta-btn:hover .cta-arrow { transform: translateX(4px); }
 
     .socials-label {
-      font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       font-size: 13px;
       letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--text-mid);
-      opacity: 0.7;
       margin-bottom: 16px;
       opacity: 0;
       animation: fadeUp 0.8s 1.4s ease forwards;
@@ -241,7 +223,6 @@
       border: 1px solid rgba(244,184,203,0.6);
       text-decoration: none;
       color: var(--pink-deep);
-      font-size: 22px;
       box-shadow: 0 4px 16px rgba(212,104,126,0.12);
       transition: all 0.3s ease;
     }
@@ -271,338 +252,9 @@
       box-shadow: 0 4px 16px rgba(212,104,126,0.15);
       transition: all 0.3s ease;
       z-index: 100;
-      color: var(--pink-deep);
     }
     .music-btn:hover {
       background: linear-gradient(135deg, #d4687e, #e8809a);
-      color: white;
-      transform: scale(1.1);
-    }
-    .music-btn.playing { animation: musicPulse 2s ease-in-out infinite; }
-
-    @keyframes musicPulse {
-      0%, 100% { box-shadow: 0 4px 16px rgba(212,104,126,0.15); }
-      50% { box-shadow: 0 4px 28px rgba(212,104,126,0.4); }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .bottom-deco {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--pink-mid), var(--pink-deep), var(--pink-mid), transparent);
-      opacity: 0.5;
-    }
-  </style>
-</head>
-<body>
-
-<div class="bg"></div>
-<div class="blob blob-1"></div>
-<div class="blob blob-2"></div>
-<div class="blob blob-3"></div>
-<canvas id="petal-canvas"></canvas>
-
-<main class="page">
-  <div class="badge">✦ Mein Schulprojekt ✦</div>
-  <p class="welcome-line">Willkommen auf meiner Webseite</p>
-  <h1 class="main-title">Flade Baum</h1>
-
-  <div class="divider">
-    <div class="divider-line"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-dot" style="width:4px;height:4px;opacity:0.4"></div>
-    <div class="divider-dot"></div>
-    <div class="divider-line"></div>
-  </div>
-
-  <p class="subtitle">
-    Eine interaktive Reise durch die Geschichte<br>
-    der Schule Flade in St. Gallen
-  </p>
-
- <!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Willkommen – Flade Baum</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --pink-light: #fce8ef;
-      --pink-mid: #f4b8cb;
-      --pink-deep: #d4687e;
-      --pink-blush: #f9d0dc;
-      --white: #fff8fb;
-      --text-dark: #4a2030;
-      --text-mid: #8b4a5e;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Cormorant Garamond', serif;
-      background: var(--white);
-      min-height: 100vh;
-      overflow-x: hidden;
-      cursor: default;
-    }
-
-    #petal-canvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .bg {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(252,210,224,0.55) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(244,184,203,0.4) 0%, transparent 55%),
-        linear-gradient(160deg, #fff0f5 0%, #fff8fb 50%, #fce8ef 100%);
-      z-index: 0;
-    }
-
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.35;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .blob-1 { width: 420px; height: 420px; background: #f4b8cb; top: -80px; left: -80px; animation: drift 12s ease-in-out infinite alternate; }
-    .blob-2 { width: 300px; height: 300px; background: #fcd4e2; bottom: 0; right: -60px; animation: drift 9s ease-in-out infinite alternate-reverse; }
-    .blob-3 { width: 200px; height: 200px; background: #f9c0d4; top: 40%; left: 60%; animation: drift 15s ease-in-out infinite alternate; }
-
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(30px, 20px) scale(1.08); }
-    }
-
-    .page {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 24px 80px;
-      gap: 0;
-    }
-
-    .badge {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--pink-deep);
-      border: 1px solid var(--pink-mid);
-      padding: 6px 20px;
-      border-radius: 50px;
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(8px);
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s ease forwards;
-    }
-
-    .welcome-line {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-weight: 300;
-      font-size: clamp(16px, 3vw, 22px);
-      color: var(--text-mid);
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.4s ease forwards;
-    }
-
-    .main-title {
-      font-family: 'Dancing Script', cursive;
-      font-weight: 700;
-      font-size: clamp(64px, 12vw, 120px);
-      line-height: 1;
-      background: linear-gradient(135deg, #c45070 0%, #e8809a 40%, #d4687e 70%, #a83050 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: none;
-      letter-spacing: -1px;
-      margin-bottom: 8px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.6s ease forwards;
-      position: relative;
-    }
-
-    .main-title::after {
-      content: 'Flade Baum';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, #c45070 0%, #e8809a 40%, #d4687e 70%, #a83050 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: blur(18px);
-      opacity: 0.3;
-      z-index: -1;
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin: 20px 0 28px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.8s ease forwards;
-    }
-    .divider-line {
-      width: 70px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--pink-mid), transparent);
-    }
-    .divider-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--pink-deep);
-      opacity: 0.6;
-    }
-
-    .subtitle {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(14px, 2.5vw, 18px);
-      font-weight: 300;
-      color: var(--text-mid);
-      text-align: center;
-      max-width: 420px;
-      line-height: 1.7;
-      letter-spacing: 0.5px;
-      margin-bottom: 44px;
-      opacity: 0;
-      animation: fadeUp 0.8s 1s ease forwards;
-    }
-
-    .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: linear-gradient(135deg, #d4687e, #e8809a);
-      color: white;
-      text-decoration: none;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 400;
-      letter-spacing: 2px;
-      padding: 16px 44px;
-      border-radius: 60px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 8px 32px rgba(212,104,126,0.35), 0 2px 8px rgba(212,104,126,0.2);
-      transition: all 0.3s ease;
-      margin-bottom: 52px;
-      opacity: 0;
-      animation: fadeUp 0.8s 1.2s ease forwards;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
-      border-radius: 60px;
-    }
-
-    .cta-btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 14px 40px rgba(212,104,126,0.45), 0 4px 12px rgba(212,104,126,0.25);
-    }
-
-    .cta-btn:active { transform: translateY(0) scale(0.99); }
-
-    .cta-arrow {
-      font-size: 20px;
-      transition: transform 0.3s ease;
-    }
-    .cta-btn:hover .cta-arrow { transform: translateX(4px); }
-
-    .socials-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-      font-size: 13px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--text-mid);
-      opacity: 0.7;
-      margin-bottom: 16px;
-      opacity: 0;
-      animation: fadeUp 0.8s 1.4s ease forwards;
-    }
-
-    .socials {
-      display: flex;
-      gap: 16px;
-      opacity: 0;
-      animation: fadeUp 0.8s 1.55s ease forwards;
-    }
-
-    .social-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(244,184,203,0.6);
-      text-decoration: none;
-      color: var(--pink-deep);
-      font-size: 22px;
-      box-shadow: 0 4px 16px rgba(212,104,126,0.12);
-      transition: all 0.3s ease;
-    }
-
-    .social-btn:hover {
-      background: linear-gradient(135deg, #d4687e, #e8809a);
-      color: white;
-      border-color: transparent;
-      transform: translateY(-4px) scale(1.1);
-      box-shadow: 0 8px 24px rgba(212,104,126,0.35);
-    }
-
-    .social-btn svg { width: 22px; height: 22px; fill: currentColor; }
-
-    .music-btn {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      width: 46px; height: 46px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.8);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(244,184,203,0.7);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 4px 16px rgba(212,104,126,0.15);
-      transition: all 0.3s ease;
-      z-index: 100;
-      color: var(--pink-deep);
-    }
-    .music-btn:hover {
-      background: linear-gradient(135deg, #d4687e, #e8809a);
-      color: white;
       transform: scale(1.1);
     }
     .music-btn.playing { animation: musicPulse 2s ease-in-out infinite; }
@@ -659,15 +311,12 @@
 
   <p class="socials-label">Folge mir</p>
   <div class="socials">
-    <!-- Instagram -->
     <a href="https://instagram.com/" target="_blank" class="social-btn" title="Instagram">
       <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
     </a>
-    <!-- TikTok -->
     <a href="https://tiktok.com/" target="_blank" class="social-btn" title="TikTok">
       <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
     </a>
-    <!-- Telegram -->
     <a href="https://t.me/" target="_blank" class="social-btn" title="Telegram">
       <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
     </a>
@@ -745,132 +394,7 @@
 
   const music = document.getElementById('bg-music');
   const btn = document.getElementById('musicBtn');
-  music.volume = 0.2;
-  let playing = false;
-
-  function tryPlay() {
-    music.play().then(() => {
-      playing = true;
-      btn.textContent = '🎵';
-      btn.classList.add('playing');
-    }).catch(() => {});
-  }
-
-  btn.addEventListener('click', () => {
-    if (playing) {
-      music.pause();
-      playing = false;
-      btn.textContent = '🔇';
-      btn.classList.remove('playing');
-    } else {
-      tryPlay();
-    }
-  });
-
-  function firstInteraction() {
-    tryPlay();
-    document.removeEventListener('mousemove', firstInteraction);
-    document.removeEventListener('click', firstInteraction);
-  }
-  document.addEventListener('mousemove', firstInteraction);
-  document.addEventListener('click', firstInteraction);
-</script>
-</body>
-</html>
-
-    Flade Baum entdecken
-    <span class="cta-arrow">→</span>
-  </a>
-
-  <p class="socials-label">Folge mir</p>
-  <div class="socials">
-    <!-- Instagram -->
-    <a href="https://instagram.com/" target="_blank" class="social-btn" title="Instagram">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
-    <!-- TikTok -->
-    <a href="https://tiktok.com/" target="_blank" class="social-btn" title="TikTok">
-      <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
-    </a>
-    <!-- Telegram -->
-    <a href="https://t.me/" target="_blank" class="social-btn" title="Telegram">
-      <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-    </a>
-  </div>
-</main>
-
-<button class="music-btn" id="musicBtn" title="Musik an/aus">🎵</button>
-<div class="bottom-deco"></div>
-
-<audio id="bg-music" loop>
-  <source src="https://github.com/davakin228/fladeSchule/raw/refs/heads/main/siarhei_korbut-japanese-flower-pixabay-329408.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-  const canvas = document.getElementById('petal-canvas');
-  const ctx = canvas.getContext('2d');
-  let petals = [];
-
-  function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  function randomBetween(a, b) { return a + Math.random() * (b - a); }
-
-  function spawnPetal() {
-    petals.push({
-      x: randomBetween(-20, canvas.width + 20),
-      y: -20,
-      size: randomBetween(5, 14),
-      speedY: randomBetween(0.6, 1.6),
-      speedX: randomBetween(-0.5, 0.5),
-      angle: randomBetween(0, Math.PI * 2),
-      rotSpeed: randomBetween(-0.02, 0.02),
-      opacity: randomBetween(0.5, 0.9),
-      sway: randomBetween(0.003, 0.008),
-      swayOffset: randomBetween(0, Math.PI * 2),
-      time: 0,
-    });
-  }
-
-  function drawPetal(p) {
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.angle);
-    ctx.globalAlpha = p.opacity;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
-    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size);
-    grad.addColorStop(0, '#f9d0dc');
-    grad.addColorStop(0.5, '#f4b8cb');
-    grad.addColorStop(1, '#e08099');
-    ctx.fillStyle = grad;
-    ctx.fill();
-    ctx.restore();
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    petals.forEach((p, i) => {
-      p.time += 0.016;
-      p.x += p.speedX + Math.sin(p.time * p.sway * 60 + p.swayOffset) * 0.4;
-      p.y += p.speedY;
-      p.angle += p.rotSpeed;
-      drawPetal(p);
-      if (p.y > canvas.height + 30) petals.splice(i, 1);
-    });
-    requestAnimationFrame(animate);
-  }
-
-  setInterval(spawnPetal, 350);
-  animate();
-
-  const music = document.getElementById('bg-music');
-  const btn = document.getElementById('musicBtn');
-  music.volume = 0.2;
+  music.volume = 0.15;
   let playing = false;
 
   function tryPlay() {

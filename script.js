@@ -1,14 +1,12 @@
 function createPetal() {
   const petal = document.createElement('div');
   petal.className = "petal";
-
   const size = Math.random() * 12 + 6;
   petal.style.width = size + "px";
   petal.style.height = size + "px";
   petal.style.left = (Math.random() * 110 - 5) + "%";
   petal.style.top = "-20px";
   petal.style.position = "absolute";
-
   document.getElementById("sakura-container").appendChild(petal);
 
   const startRotate = Math.random() * 360;
@@ -22,27 +20,23 @@ function createPetal() {
     { transform: `translate(${swayX * 0.4}px, 30vh) rotate(${startRotate + 100}deg)`, opacity: 0.7, offset: 0.3 },
     { transform: `translate(${swayX * 0.7}px, 60vh) rotate(${startRotate + 220}deg)`, opacity: 0.5, offset: 0.6 },
     { transform: `translate(${swayX}px, 110vh) rotate(${rotateEnd}deg)`, opacity: 0 }
-  ], {
-    duration: duration,
-    delay: delay,
-    easing: "ease-in-out",
-    fill: "forwards"
-  });
+  ], { duration, delay, easing: "ease-in-out", fill: "forwards" });
 
   setTimeout(() => petal.remove(), duration + delay + 200);
 }
 setInterval(createPetal, 300);
 
+// ── Popups ──
 const points = document.querySelectorAll(".point");
 const popup = document.getElementById("popup");
 const popupTitle = document.getElementById("popup-title");
 const popupText = document.getElementById("popup-text");
 const overlay = document.getElementById("overlay");
-
 let activePoint = null;
 
 points.forEach(point => {
   point.addEventListener("click", (e) => {
+    e.stopPropagation();
     const title = point.getAttribute("data-title");
     const text = point.getAttribute("data-text");
 
@@ -58,10 +52,8 @@ points.forEach(point => {
     popupText.textContent = text;
 
     const rect = point.getBoundingClientRect();
-    const margin = 10;
-    const gap = 12;
-    const screenW = window.innerWidth;
-    const screenH = window.innerHeight;
+    const margin = 10, gap = 12;
+    const screenW = window.innerWidth, screenH = window.innerHeight;
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
 
@@ -85,7 +77,6 @@ points.forEach(point => {
     }
 
     let chosen = positions.find(fitsInScreen);
-
     if (!chosen) {
       chosen = positions.reduce((best, pos) => {
         const overflow = (p) =>
@@ -98,7 +89,6 @@ points.forEach(point => {
 
     chosen.left = Math.min(Math.max(chosen.left, margin), screenW - popupW - margin);
     chosen.top = Math.min(Math.max(chosen.top, margin), screenH - popupH - margin);
-
     popup.style.left = chosen.left + "px";
     popup.style.top = chosen.top + "px";
   });
@@ -109,14 +99,3 @@ overlay.addEventListener("click", () => {
   overlay.classList.remove("active");
   activePoint = null;
 });
-const music = document.getElementById("bg-music");
-music.volume = 0.5;
-
-function startMusic() {
-  music.play();
-  document.removeEventListener("click", startMusic);
-  document.removeEventListener("mousemove", startMusic);
-}
-
-document.addEventListener("click", startMusic);
-document.addEventListener("mousemove", startMusic);

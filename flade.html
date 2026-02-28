@@ -1,38 +1,182 @@
-          <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projektarbeit</title>
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .music-btn {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(244,184,203,0.7);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 16px rgba(212,104,126,0.15);
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+    .music-btn:hover { background: linear-gradient(135deg, #d4687e, #e8809a); transform: scale(1.1); }
+    .music-btn.playing { animation: musicPulse 2s ease-in-out infinite; }
+    @keyframes musicPulse {
+      0%, 100% { box-shadow: 0 4px 16px rgba(212,104,126,0.15); }
+      50% { box-shadow: 0 4px 28px rgba(212,104,126,0.4); }
+    }
+
+    .hamburger-btn {
+      position: fixed;
+      top: 24px;
+      right: 28px;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(244,184,203,0.7);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      box-shadow: 0 4px 16px rgba(212,104,126,0.15);
+      transition: all 0.3s ease;
+      z-index: 9999;
+    }
+    .hamburger-btn:hover { background: linear-gradient(135deg, #d4687e, #e8809a); transform: scale(1.1); }
+    .hamburger-btn span { display: block; width: 18px; height: 2px; background: #d4687e; border-radius: 2px; transition: all 0.3s ease; }
+    .hamburger-btn:hover span { background: white; }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: #d4687e; }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: #d4687e; }
+
+    .dropdown-menu {
+      position: fixed;
+      top: 80px;
+      right: 28px;
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(244,184,203,0.5);
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(212,104,126,0.2);
+      padding: 8px;
+      z-index: 9998;
+      min-width: 200px;
+      opacity: 0;
+      transform: translateY(-10px) scale(0.95);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      font-family: "Dancing Script", cursive;
+    }
+    .dropdown-menu.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .menu-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #f4b8cb; padding: 8px 16px 4px; display: block; }
+    .menu-divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(244,184,203,0.5), transparent); margin: 3px 8px; }
+    .menu-item { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 10px; text-decoration: none; color: #8b4a5e; font-size: 16px; transition: all 0.2s ease; }
+    .menu-item:hover { background: rgba(212,104,126,0.08); color: #d4687e; }
+    .menu-item-icon { font-size: 15px; width: 20px; text-align: center; }
+  </style>
 </head>
 <body>
   <div id="sakura-container">
     <div class="tree-overlay"></div>
-<!--     <div class="petal">
-    </div> -->
-    <div class="point" id="Schule_1970" style="top:85%; left:50%;" data-title="1970er Jahre – Tradition im Wandel" data-text="In dieser Zeit blieb die Flade fest in ihrer Rolle als katholische Sekundarschule für die Stadt St. Gallen verankert. Die Trennung zwischen Jungen und Mädchen war strikter Alltag. Während die Jungen im Gallusschulhaus unterrichtet wurden, besuchten die Mädchen das Notkerzentrum. Die Lehrerschaft bestand damals noch zu einem beachtlichen Teil aus Klerikern und Ordensschwestern, die das christliche Erbe der Schule bewahrten. Dennoch öffnete sich die Institution langsam den neuen pädagogischen Strömungen der Nachkriegszeit."> <span class="point-label">1970</span> </div>
-    <div class="point" id="Schule_1980" style="top:58%; left:64%;" data-title="1980er Jahre – Fokus auf die Infrastruktur" data-text="Dieses Jahrzehnt war geprägt von der Modernisierung der alten Schulgebäude. Die Verantwortlichen investierten hohe Summen in die Fachzimmer und die Aula, um den technischen Fortschritt abzubilden. Man legte grossen Wert darauf, dass die historische Substanz im Klosterviertel erhalten blieb, während im Inneren moderne Lehrmittel einzogen. Die Schule festigte ihren Ruf als Ort, an dem Disziplin und Leistung in einem familiären Umfeld gefördert wurden.">  <span class="point-label">1980</span> </div>
-    <div class="point" id="Schule_1990" style="top:45%; left:23%;" data-title="1990er Jahre – Der Schritt zur Koedukation" data-text="Die wohl grösste Veränderung ereignete sich in den Neunzigern mit der schrittweisen Einführung des gemeinsamen Unterrichts. Die strikte Geschlechtertrennung wurde aufgehoben, was das soziale Klima an der Schule grundlegend erneuerte. Parallel dazu hielten die ersten Informatikräume Einzug. Die Schüler lernten nun den Umgang mit den ersten Computern, während die Schulleitung die administrativen Strukturen an die Anforderungen eines modernen Bildungsbetriebs anpasste.">  <span class="point-label">1990</span> </div>
-    <div class="point" id="Schule_2000" style="top:44%; left:85%;" data-title="2000er Jahre – Pädagogische Vielfalt" data-text="Mit der Jahrtausendwende rückte die individuelle Förderung der Jugendlichen in das Zentrum der Strategie. Die Flade profilierte sich durch ein breites Angebot an Wahlfächern und Projekten, die über den klassischen Lehrplan hinausgingen. Zudem wurde die Zusammenarbeit zwischen den drei Standorten Gallus, Notker und Brühl intensiviert. Man verstand sich zunehmend als eine Einheit, die trotz räumlicher Trennung eine gemeinsame Vision von Bildung und Erziehung verfolgte.">  <span class="point-label">2000</span> </div>
-    <div class="point" id="Schule_2010" style="top:24%; left:5%;" data-title="2010er Jahre – Infrastruktur und Digitalisierung" data-text="In diesem Jahrzehnt modernisierte die Flade ihre drei Standorte Gallus, Notker und Brühl umfassend. Die Klassenzimmer erhielten moderne Beamer und interaktive Tafeln, während die historische Hülle der Gebäude bewahrt wurde. Ein grosser Meilenstein war die Einführung von iPads für den Unterricht, was die Arbeitsweise grundlegend veränderte.
 
-Die Lehrpersonen entwickelten sich in dieser Zeit von reinen Wissensvermittlern zu Lernbegleitern weiter. Sie investierten viel Zeit in Weiterbildungen, um digitale Medien pädagogisch sinnvoll zu nutzen. Gleichzeitig wurde die soziale Infrastruktur durch den Ausbau der Mittagsbetreuung und den Einsatz von Schulsozialarbeitern gestärkt. Die Schule schuf so eine moderne Lernumgebung, die technologischen Fortschritt mit persönlicher Betreuung und christlichen Werten verband.">  <span class="point-label">2010</span> </div>
+    <div class="point" id="Schule_1970" style="top:85%; left:50%;" data-title="1970er Jahre – Tradition im Wandel" data-text="In dieser Zeit blieb die Flade fest in ihrer Rolle als katholische Sekundarschule für die Stadt St. Gallen verankert. Die Trennung zwischen Jungen und Mädchen war strikter Alltag. Während die Jungen im Gallusschulhaus unterrichtet wurden, besuchten die Mädchen das Notkerzentrum. Die Lehrerschaft bestand damals noch zu einem beachtlichen Teil aus Klerikern und Ordensschwestern, die das christliche Erbe der Schule bewahrten. Dennoch öffnete sich die Institution langsam den neuen pädagogischen Strömungen der Nachkriegszeit."> <span class="point-label">1970</span> </div>
+    <div class="point" id="Schule_1980" style="top:58%; left:64%;" data-title="1980er Jahre – Fokus auf die Infrastruktur" data-text="Dieses Jahrzehnt war geprägt von der Modernisierung der alten Schulgebäude. Die Verantwortlichen investierten hohe Summen in die Fachzimmer und die Aula, um den technischen Fortschritt abzubilden. Man legte grossen Wert darauf, dass die historische Substanz im Klosterviertel erhalten blieb, während im Inneren moderne Lehrmittel einzogen. Die Schule festigte ihren Ruf als Ort, an dem Disziplin und Leistung in einem familiären Umfeld gefördert wurden."> <span class="point-label">1980</span> </div>
+    <div class="point" id="Schule_1990" style="top:45%; left:23%;" data-title="1990er Jahre – Der Schritt zur Koedukation" data-text="Die wohl grösste Veränderung ereignete sich in den Neunzigern mit der schrittweisen Einführung des gemeinsamen Unterrichts. Die strikte Geschlechtertrennung wurde aufgehoben, was das soziale Klima an der Schule grundlegend erneuerte. Parallel dazu hielten die ersten Informatikräume Einzug. Die Schüler lernten nun den Umgang mit den ersten Computern, während die Schulleitung die administrativen Strukturen an die Anforderungen eines modernen Bildungsbetriebs anpasste."> <span class="point-label">1990</span> </div>
+    <div class="point" id="Schule_2000" style="top:44%; left:85%;" data-title="2000er Jahre – Pädagogische Vielfalt" data-text="Mit der Jahrtausendwende rückte die individuelle Förderung der Jugendlichen in das Zentrum der Strategie. Die Flade profilierte sich durch ein breites Angebot an Wahlfächern und Projekten, die über den klassischen Lehrplan hinausgingen. Zudem wurde die Zusammenarbeit zwischen den drei Standorten Gallus, Notker und Brühl intensiviert. Man verstand sich zunehmend als eine Einheit, die trotz räumlicher Trennung eine gemeinsame Vision von Bildung und Erziehung verfolgte."> <span class="point-label">2000</span> </div>
+    <div class="point" id="Schule_2010" style="top:24%; left:5%;" data-title="2010er Jahre – Infrastruktur und Digitalisierung" data-text="In diesem Jahrzehnt modernisierte die Flade ihre drei Standorte Gallus, Notker und Brühl umfassend. Die Klassenzimmer erhielten moderne Beamer und interaktive Tafeln, während die historische Hülle der Gebäude bewahrt wurde. Ein grosser Meilenstein war die Einführung von iPads für den Unterricht, was die Arbeitsweise grundlegend veränderte. Die Lehrpersonen entwickelten sich in dieser Zeit von reinen Wissensvermittlern zu Lernbegleitern weiter. Sie investierten viel Zeit in Weiterbildungen, um digitale Medien pädagogisch sinnvoll zu nutzen. Gleichzeitig wurde die soziale Infrastruktur durch den Ausbau der Mittagsbetreuung und den Einsatz von Schulsozialarbeitern gestärkt. Die Schule schuf so eine moderne Lernumgebung, die technologischen Fortschritt mit persönlicher Betreuung und christlichen Werten verband."> <span class="point-label">2010</span> </div>
     <div class="point" id="Schule_heute" style="top:22%; left:52%;" data-title="Heute – Digitalisierung und Offenheit" data-text="In der Gegenwart präsentiert sich die Flade als eine der modernsten Sekundarschulen der Ostschweiz. Digitale Endgeräte wie iPads gehören mittlerweile zum Standardwerkzeug in jedem Klassenzimmer. Obwohl die Schule weiterhin vom Katholischen Konfessionsteil getragen wird, steht sie heute Jugendlichen verschiedenster Hintergründe offen. Das Hauptaugenmerk liegt auf der Vorbereitung der jungen Menschen für die Berufswelt oder das Gymnasium, wobei soziale Kompetenz und gegenseitiger Respekt die wichtigsten Pfeiler bilden."> <span class="point-label">heute</span> </div>
-    
-     <div id="overlay"></div>
+
+    <div id="overlay"></div>
     <div class="popup" id="popup">
-  <div class="popup-content">
-    <h2 id="popup-title"></h2>
-    <p id="popup-text"></p>
+      <div class="popup-content">
+        <h2 id="popup-title"></h2>
+        <p id="popup-text"></p>
+      </div>
+    </div>
+
+    <audio id="bg-music" loop>
+      <source src="https://github.com/davakin228/fladeSchule/raw/refs/heads/main/siarhei_korbut-japanese-flower-pixabay-329408.mp3" type="audio/mpeg">
+    </audio>
   </div>
-</div>
-  
- <audio id="bg-music" autoplay loop>
-  <source src="https://github.com/davakin228/fladeSchule/raw/refs/heads/main/siarhei_korbut-japanese-flower-pixabay-329408.mp3" type="audio/mpeg">
-</audio>
-  
+
+  <button class="music-btn" id="musicBtn" title="Musik an/aus">🎵</button>
+
+  <button class="hamburger-btn" id="hamburgerBtn">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="dropdown-menu" id="dropdownMenu">
+    <span class="menu-label">Navigation</span>
+    <a class="menu-item" href="index.html"><span class="menu-item-icon">🌸</span> Titelscreen</a>
+    <div class="menu-divider-line"></div>
+    <a class="menu-item" href="#"><span class="menu-item-icon">🌳</span> Flade Baum</a>
+    <div class="menu-divider-line"></div>
+    <a class="menu-item" href="https://www.flade.ch" target="_blank"><span class="menu-item-icon">🔗</span> flade.ch</a>
+  </div>
+
   <script src="script.js"></script>
+  <script>
+    // Music
+    const bgMusic = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('musicBtn');
+    bgMusic.volume = 0.15;
+    let isPlaying = false;
+
+    function tryPlay() {
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicBtn.textContent = '🎵';
+        musicBtn.classList.add('playing');
+      }).catch(() => {});
+    }
+
+    musicBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (isPlaying) {
+        bgMusic.pause();
+        isPlaying = false;
+        musicBtn.textContent = '🔇';
+        musicBtn.classList.remove('playing');
+      } else {
+        tryPlay();
+      }
+    });
+
+    document.addEventListener('mousemove', function startOnMove() {
+      tryPlay();
+      document.removeEventListener('mousemove', startOnMove);
+    });
+
+    // Hamburger
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    let menuOpen = false;
+
+    hamburgerBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      menuOpen = !menuOpen;
+      hamburgerBtn.classList.toggle('open', menuOpen);
+      dropdownMenu.classList.toggle('open', menuOpen);
+    });
+
+    document.addEventListener('click', function() {
+      if (menuOpen) {
+        menuOpen = false;
+        hamburgerBtn.classList.remove('open');
+        dropdownMenu.classList.remove('open');
+      }
+    });
+
+    dropdownMenu.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+  </script>
 </body>
 </html>

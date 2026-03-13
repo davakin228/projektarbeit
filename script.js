@@ -1,3 +1,37 @@
+// Фотки для каждого года — прямые ссылки
+const PHOTOS = {
+  "Schule_1970": [
+    "https://github.com/davakin228/FOTOS-/blob/main/1970(1).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/1970(2).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/1970(3).jpg?raw=true"
+  ],
+  "Schule_1980": [
+    "https://github.com/davakin228/FOTOS-/blob/main/1980(1).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/1980(2).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/1980(3).jpg?raw=true"
+  ],
+  "Schule_1990": [
+    "https://github.com/davakin228/FOTOS-/blob/main/1990(1).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/1990(2).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/1990(3).jpg?raw=true"
+  ],
+  "Schule_2000": [
+    "https://github.com/davakin228/FOTOS-/blob/main/2000(1).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/2000(2).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/2000(3).jpg?raw=true"
+  ],
+  "Schule_2010": [
+    "https://github.com/davakin228/FOTOS-/blob/main/2010(1).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/2010(2).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/2010(3).jpg?raw=true"
+  ],
+  "Schule_heute": [
+    "https://github.com/davakin228/FOTOS-/blob/main/jetzt(1).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/jetzt(2).jpg?raw=true",
+    "https://github.com/davakin228/FOTOS-/blob/main/jetzt(3).jpg?raw=true"
+  ]
+};
+
 function createPetal() {
   const petal = document.createElement('div');
   petal.className = "petal";
@@ -31,6 +65,7 @@ const points = document.querySelectorAll(".point");
 const popup = document.getElementById("popup");
 const popupTitle = document.getElementById("popup-title");
 const popupText = document.getElementById("popup-text");
+const popupPhotos = document.getElementById("popup-photos");
 const overlay = document.getElementById("overlay");
 let activePoint = null;
 
@@ -39,6 +74,7 @@ points.forEach(point => {
     e.stopPropagation();
     const title = point.getAttribute("data-title");
     const text = point.getAttribute("data-text");
+    const pointId = point.id;
 
     if (activePoint === point) {
       popup.classList.remove("active");
@@ -50,6 +86,21 @@ points.forEach(point => {
     activePoint = point;
     popupTitle.textContent = title;
     popupText.textContent = text;
+
+    // Вставляем фотки
+    popupPhotos.innerHTML = "";
+    const photos = PHOTOS[pointId] || [];
+    photos.forEach(src => {
+      const img = document.createElement("img");
+      img.className = "popup-photo";
+      img.src = src;
+      img.alt = "";
+      img.addEventListener("click", function(e) {
+        e.stopPropagation();
+        if (window.openLightbox) window.openLightbox(this.src);
+      });
+      popupPhotos.appendChild(img);
+    });
 
     const rect = point.getBoundingClientRect();
     const margin = 10, gap = 12;

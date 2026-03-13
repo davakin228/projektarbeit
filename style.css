@@ -17,7 +17,7 @@ body {
   position: relative;
   height: 100vh;
   width: 100%;
-  background-image: url(https://github.com/StacyBetsa/tinkerteens/blob/main/%D1%81%D0%B0%D0%BA%D1%83%D1%80%D0%B0%20%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE.webp?raw=true);
+  background-image: url(https://raw.githubusercontent.com/StacyBetsa/tinkerteens/main/%D1%81%D0%B0%D0%BA%D1%83%D1%80%D0%B0%20%D0%B4%D0%B5%D1%80%D0%B5%D0%B2%D0%BE.webp);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -82,32 +82,32 @@ body {
 }
 
 #Schule_1970 {
-  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/flade%20schule.jpg?raw=true);
+  background-image: url(https://raw.githubusercontent.com/davakin228/fladeSchule/main/flade%20schule.jpg);
   background-size: contain;
 }
 
 #Schule_1980 {
-  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/schule%20flade.jpg?raw=true);
+  background-image: url(https://raw.githubusercontent.com/davakin228/fladeSchule/main/schule%20flade.jpg);
   background-size: cover;
 }
 
 #Schule_1990 {
-  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/photo_2026-02-20_14-00-18.jpg?raw=true);
+  background-image: url(https://raw.githubusercontent.com/davakin228/fladeSchule/main/photo_2026-02-20_14-00-18.jpg);
   background-size: cover;
 }
 
 #Schule_2000 {
-  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/andere%20Schule.jpg?raw=true);
+  background-image: url(https://raw.githubusercontent.com/davakin228/fladeSchule/main/andere%20Schule.jpg);
   background-size: cover;
 }
 
 #Schule_2010 {
-  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/aa.jpg?raw=true);
+  background-image: url(https://raw.githubusercontent.com/davakin228/fladeSchule/main/aa.jpg);
   background-size: cover;
 }
 
 #Schule_heute {
-  background-image: url(https://github.com/davakin228/fladeSchule/blob/main/halle.jpg?raw=true);
+  background-image: url(https://raw.githubusercontent.com/davakin228/fladeSchule/main/halle.jpg);
   background-size: contain;
 }
 

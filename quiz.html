@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz – Flade Baum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink-light: #fce8ef;
+      --pink-mid: #f4b8cb;
+      --pink-deep: #d4687e;
+      --pink-blush: #f9d0dc;
+      --white: #fff8fb;
+      --text-dark: #4a2030;
+      --text-mid: #8b4a5e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: var(--white);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #petal-canvas {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+    }
+
+    .bg {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(252,210,224,0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(244,184,203,0.4) 0%, transparent 55%),
+        linear-gradient(160deg, #fff0f5 0%, #fff8fb 50%, #fce8ef 100%);
+      z-index: 0;
+    }
+
+    .blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.3; pointer-events: none; z-index: 0; }
+    .blob-1 { width: 400px; height: 400px; background: #f4b8cb; top: -80px; left: -80px; animation: drift 12s ease-in-out infinite alternate; }
+    .blob-2 { width: 280px; height: 280px; background: #fcd4e2; bottom: 0; right: -60px; animation: drift 9s ease-in-out infinite alternate-reverse; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(30px,20px) scale(1.08); } }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 760px; margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--pink-deep);
+      border: 1px solid var(--pink-mid);
+      padding: 6px 20px; border-radius: 50px;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      margin-bottom: 20px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(48px, 8vw, 80px);
+      background: linear-gradient(135deg, #c45070, #e8809a, #d4687e);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .subtitle {
+      font-size: 16px; color: var(--text-mid); font-style: italic;
+      margin-bottom: 48px; letter-spacing: 0.5px;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+
+    /* Progress */
+    .progress-wrap {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s 0.7s ease both;
+    }
+    .progress-bar-bg {
+      flex: 1; height: 6px; border-radius: 10px;
+      background: rgba(212,104,126,0.15);
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; border-radius: 10px;
+      background: linear-gradient(90deg, #d4687e, #e8809a);
+      transition: width 0.4s ease;
+    }
+    .progress-text {
+      font-size: 13px; color: var(--text-mid); letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    /* Question card */
+    .question-card {
+      background: rgba(255,245,248,0.97);
+      border-radius: 24px;
+      padding: 36px 36px 28px;
+      box-shadow: 0 12px 48px rgba(212,104,126,0.15), 0 0 0 1px rgba(244,184,203,0.4);
+      margin-bottom: 24px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .question-decade {
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--pink-deep); margin-bottom: 12px;
+    }
+
+    .question-text {
+      font-size: clamp(18px, 3vw, 22px);
+      font-weight: 400; color: var(--text-dark);
+      line-height: 1.5; margin-bottom: 28px;
+    }
+
+    .options {
+      display: grid; gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 14px 20px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(212,104,126,0.25);
+      background: rgba(255,255,255,0.8);
+      color: var(--text-dark);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--pink-deep);
+      background: rgba(212,104,126,0.06);
+      transform: translateX(4px);
+    }
+    .option-btn.correct {
+      border-color: #4caf7d;
+      background: rgba(76,175,125,0.1);
+      color: #2d6b4a;
+    }
+    .option-btn.wrong {
+      border-color: #e07070;
+      background: rgba(224,112,112,0.1);
+      color: #8b2222;
+    }
+    .option-btn:disabled { cursor: default; }
+    .option-icon { font-size: 18px; flex-shrink: 0; }
+
+    /* Feedback */
+    .feedback {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.5;
+      display: none;
+    }
+    .feedback.show { display: block; animation: fadeUp 0.3s ease; }
+    .feedback.correct { background: rgba(76,175,125,0.1); color: #2d6b4a; border: 1px solid rgba(76,175,125,0.3); }
+    .feedback.wrong { background: rgba(224,112,112,0.1); color: #8b2222; border: 1px solid rgba(224,112,112,0.3); }
+
+    /* Next button */
+    .next-btn {
+      display: none;
+      margin-top: 20px;
+      padding: 14px 36px;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, #d4687e, #e8809a);
+      color: white;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(212,104,126,0.35);
+      transition: all 0.3s ease;
+    }
+    .next-btn.show { display: inline-block; animation: fadeUp 0.3s ease; }
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(212,104,126,0.45); }
+
+    /* Result */
+    .result-card {
+      display: none;
+      background: rgba(255,245,248,0.97);
+      border-radius: 24px;
+      padding: 48px 36px;
+      box-shadow: 0 12px 48px rgba(212,104,126,0.15), 0 0 0 1px rgba(244,184,203,0.4);
+      text-align: center;
+      animation: fadeUp 0.6s ease both;
+    }
+    .result-card.show { display: block; }
+    .result-emoji { font-size: 64px; margin-bottom: 16px; }
+    .result-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 42px;
+      background: linear-gradient(135deg, #c45070, #e8809a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+    .result-score {
+      font-size: 20px; color: var(--text-mid); margin-bottom: 8px;
+    }
+    .result-msg { font-size: 16px; color: var(--text-mid); font-style: italic; margin-bottom: 32px; }
+
+    .result-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .result-btn {
+      padding: 12px 28px; border-radius: 50px; font-family: 'Cormorant Garamond', serif;
+      font-size: 16px; cursor: pointer; transition: all 0.3s ease; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .result-btn-primary {
+      background: linear-gradient(135deg, #d4687e, #e8809a);
+      color: white; border: none;
+      box-shadow: 0 6px 20px rgba(212,104,126,0.35);
+    }
+    .result-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(212,104,126,0.45); }
+    .result-btn-secondary {
+      background: transparent; color: var(--pink-deep);
+      border: 1.5px solid var(--pink-mid);
+    }
+    .result-btn-secondary:hover { background: rgba(212,104,126,0.06); }
+
+    /* Nav */
+    .hamburger-btn {
+      position: fixed; top: 24px; right: 28px;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
+      border: 1px solid rgba(244,184,203,0.7); cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 5px; box-shadow: 0 4px 16px rgba(212,104,126,0.15);
+      transition: all 0.3s ease; z-index: 9999;
+    }
+    .hamburger-btn:hover { background: linear-gradient(135deg, #d4687e, #e8809a); transform: scale(1.1); }
+    .hamburger-btn span { display: block; width: 18px; height: 2px; background: #d4687e; border-radius: 2px; transition: all 0.3s ease; }
+    .hamburger-btn:hover span { background: white; }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .dropdown-menu {
+      position: fixed; top: 80px; right: 28px;
+      background: rgba(255,255,255,0.96); backdrop-filter: blur(16px);
+      border: 1px solid rgba(244,184,203,0.5); border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(212,104,126,0.2);
+      padding: 8px; z-index: 9998; min-width: 200px;
+      opacity: 0; transform: translateY(-10px) scale(0.95);
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      font-family: 'Dancing Script', cursive;
+    }
+    .dropdown-menu.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .menu-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #f4b8cb; padding: 8px 16px 4px; display: block; }
+    .menu-divider-line { height: 1px; background: linear-gradient(90deg, transparent, rgba(244,184,203,0.5), transparent); margin: 3px 8px; }
+    .menu-item { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 10px; text-decoration: none; color: #8b4a5e; font-size: 16px; transition: all 0.2s ease; }
+    .menu-item:hover { background: rgba(212,104,126,0.08); color: #d4687e; }
+    .menu-item-icon { font-size: 15px; width: 20px; text-align: center; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<canvas id="petal-canvas"></canvas>
+
+<button class="hamburger-btn" id="hamburgerBtn"><span></span><span></span><span></span></button>
+<div class="dropdown-menu" id="dropdownMenu">
+  <span class="menu-label">Navigation</span>
+  <a class="menu-item" href="index.html"><span class="menu-item-icon">🌸</span> Titelscreen</a>
+  <div class="menu-divider-line"></div>
+  <a class="menu-item" href="flade.html"><span class="menu-item-icon">🌳</span> Flade Baum</a>
+  <div class="menu-divider-line"></div>
+  <a class="menu-item" href="#"><span class="menu-item-icon">📝</span> Quiz</a>
+  <div class="menu-divider-line"></div>
+  <a class="menu-item" href="https://www.flade.ch" target="_blank"><span class="menu-item-icon">🔗</span> flade.ch</a>
+</div>
+
+<div class="page">
+  <div class="badge">✦ Teste dein Wissen ✦</div>
+  <h1>Flade Quiz</h1>
+  <p class="subtitle">Wie gut kennst du die Geschichte der Schule Flade?</p>
+
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <span class="progress-text" id="progress-text">1 / 10</span>
+  </div>
+
+  <div class="question-card" id="question-card">
+    <div class="question-decade" id="q-decade"></div>
+    <div class="question-text" id="q-text"></div>
+    <div class="options" id="q-options"></div>
+    <div class="feedback" id="q-feedback"></div>
+    <button class="next-btn" id="next-btn">Weiter →</button>
+  </div>
+
+  <div class="result-card" id="result-card">
+    <div class="result-emoji" id="result-emoji"></div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-score" id="result-score"></div>
+    <div class="result-msg" id="result-msg"></div>
+    <div class="result-btns">
+      <button class="result-btn result-btn-primary" onclick="restartQuiz()">🔄 Nochmal versuchen</button>
+      <a class="result-btn result-btn-secondary" href="flade.html">🌳 Zum Baum</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    decade: "🌸 1970er Jahre",
+    question: "Welche Rolle hatte die Schule Flade in den 1970er Jahren?",
+    options: [
+      "Eine staatliche Gesamtschule für alle",
+      "Eine katholische Sekundarschule für St. Gallen",
+      "Eine private Musikschule",
+      "Eine internationale Handelsschule"
+    ],
+    correct: 1,
+    explanation: "Die Flade war fest als katholische Sekundarschule für die Stadt St. Gallen verankert."
+  },
+  {
+    decade: "🌸 1970er Jahre",
+    question: "Wo wurden die Jungen in den 1970ern unterrichtet?",
+    options: [
+      "Im Notkerzentrum",
+      "Im Brühlschulhaus",
+      "Im Gallusschulhaus",
+      "Im Klosterviertel"
+    ],
+    correct: 2,
+    explanation: "Die Jungen wurden im Gallusschulhaus unterrichtet, während die Mädchen das Notkerzentrum besuchten."
+  },
+  {
+    decade: "🏗️ 1980er Jahre",
+    question: "Wofür wurde in den 1980ern viel investiert?",
+    options: [
+      "Neue Sportanlagen",
+      "Fachzimmer und die Aula",
+      "Digitale Endgeräte",
+      "Neue Lehrerausbildungen"
+    ],
+    correct: 1,
+    explanation: "Die Verantwortlichen investierten hohe Summen in die Fachzimmer und die Aula."
+  },
+  {
+    decade: "🏗️ 1980er Jahre",
+    question: "Was blieb in den 1980ern trotz Modernisierung erhalten?",
+    options: [
+      "Die Geschlechtertrennung",
+      "Die historische Substanz im Klosterviertel",
+      "Der alte Stundenplan",
+      "Die Ordensschwestern als Lehrerinnen"
+    ],
+    correct: 1,
+    explanation: "Man legte grossen Wert darauf, dass die historische Substanz im Klosterviertel erhalten blieb."
+  },
+  {
+    decade: "👫 1990er Jahre",
+    question: "Was war die grösste Veränderung in den 1990er Jahren?",
+    options: [
+      "Einführung von Computern",
+      "Bau neuer Schulgebäude",
+      "Einführung der Koedukation",
+      "Wechsel der Schulleitung"
+    ],
+    correct: 2,
+    explanation: "Die schrittweise Einführung des gemeinsamen Unterrichts (Koedukation) war die grösste Veränderung."
+  },
+  {
+    decade: "👫 1990er Jahre",
+    question: "Was hielten die ersten Informatikräume in den 1990ern?",
+    options: [
+      "Tablets und Smartphones",
+      "Erste Computer",
+      "Drucker und Scanner",
+      "Interaktive Tafeln"
+    ],
+    correct: 1,
+    explanation: "Die Schüler lernten den Umgang mit den ersten Computern."
+  },
+  {
+    decade: "📚 2000er Jahre",
+    question: "Worauf lag der Fokus in den 2000er Jahren?",
+    options: [
+      "Sportliche Förderung",
+      "Individuelle Förderung der Jugendlichen",
+      "Religiöse Erziehung",
+      "Technische Ausbildung"
+    ],
+    correct: 1,
+    explanation: "Die individuelle Förderung der Jugendlichen rückte in das Zentrum der Strategie."
+  },
+  {
+    decade: "💻 2010er Jahre",
+    question: "Was war ein grosser Meilenstein in den 2010er Jahren?",
+    options: [
+      "Einführung von Smartphones",
+      "Bau eines neuen Schulgebäudes",
+      "Einführung von iPads im Unterricht",
+      "Abschaffung der Hausaufgaben"
+    ],
+    correct: 2,
+    explanation: "Die Einführung von iPads für den Unterricht war ein grosser Meilenstein, der die Arbeitsweise grundlegend veränderte."
+  },
+  {
+    decade: "💻 2010er Jahre",
+    question: "Zu was entwickelten sich die Lehrpersonen in den 2010ern?",
+    options: [
+      "Zu reinen Prüfern",
+      "Zu Lernbegleitern",
+      "Zu Verwaltungsbeamten",
+      "Zu Schulpsychologen"
+    ],
+    correct: 1,
+    explanation: "Die Lehrpersonen entwickelten sich von reinen Wissensvermittlern zu Lernbegleitern weiter."
+  },
+  {
+    decade: "🌍 Heute",
+    question: "Wer trägt die Schule Flade heute?",
+    options: [
+      "Die Stadt St. Gallen",
+      "Der Kanton St. Gallen",
+      "Der Katholische Konfessionsteil",
+      "Eine private Stiftung"
+    ],
+    correct: 2,
+    explanation: "Die Schule wird weiterhin vom Katholischen Konfessionsteil getragen, steht aber heute Jugendlichen verschiedenster Hintergründe offen."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+function loadQuestion() {
+  const q = QUESTIONS[currentQ];
+  document.getElementById('q-decade').textContent = q.decade;
+  document.getElementById('q-text').textContent = q.question;
+
+  const optionsEl = document.getElementById('q-options');
+  optionsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-icon">○</span> ${opt}`;
+    btn.addEventListener('click', () => selectAnswer(i));
+    optionsEl.appendChild(btn);
+  });
+
+  document.getElementById('q-feedback').className = 'feedback';
+  document.getElementById('q-feedback').textContent = '';
+  document.getElementById('next-btn').className = 'next-btn';
+  answered = false;
+
+  const pct = (currentQ / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = (currentQ + 1) + ' / ' + QUESTIONS.length;
+
+  document.getElementById('question-card').style.animation = 'none';
+  setTimeout(() => document.getElementById('question-card').style.animation = 'fadeUp 0.4s ease', 10);
+}
+
+function selectAnswer(index) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  const feedback = document.getElementById('q-feedback');
+
+  btns.forEach(b => b.disabled = true);
+
+  if (index === q.correct) {
+    score++;
+    btns[index].classList.add('correct');
+    btns[index].querySelector('.option-icon').textContent = '✓';
+    feedback.className = 'feedback correct show';
+    feedback.textContent = '✓ Richtig! ' + q.explanation;
+  } else {
+    btns[index].classList.add('wrong');
+    btns[index].querySelector('.option-icon').textContent = '✗';
+    btns[q.correct].classList.add('correct');
+    btns[q.correct].querySelector('.option-icon').textContent = '✓';
+    feedback.className = 'feedback wrong show';
+    feedback.textContent = '✗ Leider falsch. ' + q.explanation;
+  }
+
+  document.getElementById('next-btn').className = 'next-btn show';
+}
+
+document.getElementById('next-btn').addEventListener('click', () => {
+  currentQ++;
+  if (currentQ < QUESTIONS.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+});
+
+function showResult() {
+  document.getElementById('question-card').style.display = 'none';
+  document.getElementById('progress-wrap').style.display = 'none';
+
+  const pct = score / QUESTIONS.length;
+  let emoji, title, msg;
+  if (pct === 1) { emoji = '🌸'; title = 'Perfekt!'; msg = 'Du kennst die Geschichte der Flade wie kein anderer!'; }
+  else if (pct >= 0.8) { emoji = '🎉'; title = 'Ausgezeichnet!'; msg = 'Du hast die Geschichte sehr gut gelernt!'; }
+  else if (pct >= 0.6) { emoji = '👏'; title = 'Gut gemacht!'; msg = 'Du weißt schon einiges über die Flade!'; }
+  else if (pct >= 0.4) { emoji = '📖'; title = 'Fast!'; msg = 'Lies nochmal den Flade Baum und versuche es erneut!'; }
+  else { emoji = '🌱'; title = 'Weitermachen!'; msg = 'Schau dir den Flade Baum an und lerne die Geschichte kennen!'; }
+
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-score').textContent = score + ' von ' + QUESTIONS.length + ' richtig';
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('progress-fill').style.width = '100%';
+
+  const rc = document.getElementById('result-card');
+  rc.classList.add('show');
+}
+
+function restartQuiz() {
+  currentQ = 0; score = 0;
+  document.getElementById('question-card').style.display = 'block';
+  document.getElementById('progress-wrap').style.display = 'flex';
+  document.getElementById('result-card').classList.remove('show');
+  loadQuestion();
+}
+
+loadQuestion();
+
+// Petals
+const canvas = document.getElementById('petal-canvas');
+const ctx = canvas.getContext('2d');
+let petals = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+function spawnPetal() {
+  petals.push({
+    x: Math.random() * (canvas.width + 40) - 20, y: -20,
+    size: Math.random() * 9 + 5,
+    speedY: Math.random() * 1 + 0.5,
+    speedX: Math.random() * 1 - 0.5,
+    angle: Math.random() * Math.PI * 2,
+    rotSpeed: Math.random() * 0.04 - 0.02,
+    opacity: Math.random() * 0.4 + 0.5,
+    sway: Math.random() * 0.006 + 0.003,
+    swayOffset: Math.random() * Math.PI * 2,
+    time: 0
+  });
+}
+function drawPetal(p) {
+  ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+  ctx.globalAlpha = p.opacity; ctx.beginPath();
+  ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+  const g = ctx.createRadialGradient(0,0,0,0,0,p.size);
+  g.addColorStop(0, '#f9d0dc'); g.addColorStop(0.5, '#f4b8cb'); g.addColorStop(1, '#e08099');
+  ctx.fillStyle = g; ctx.fill(); ctx.restore();
+}
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  petals.forEach((p, i) => {
+    p.time += 0.016;
+    p.x += p.speedX + Math.sin(p.time * p.sway * 60 + p.swayOffset) * 0.4;
+    p.y += p.speedY; p.angle += p.rotSpeed;
+    drawPetal(p);
+    if (p.y > canvas.height + 30) petals.splice(i, 1);
+  });
+  requestAnimationFrame(animate);
+}
+setInterval(spawnPetal, 400); animate();
+
+// Hamburger
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+let menuOpen = false;
+hamburgerBtn.addEventListener('click', e => {
+  e.stopPropagation(); menuOpen = !menuOpen;
+  hamburgerBtn.classList.toggle('open', menuOpen);
+  dropdownMenu.classList.toggle('open', menuOpen);
+});
+document.addEventListener('click', () => {
+  if (menuOpen) { menuOpen = false; hamburgerBtn.classList.remove('open'); dropdownMenu.classList.remove('open'); }
+});
+dropdownMenu.addEventListener('click', e => e.stopPropagation());
+</script>
+</body>
+</html>

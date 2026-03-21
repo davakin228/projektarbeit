@@ -213,7 +213,7 @@
     </audio>
   </div>
 
-  <!-- Lightbox -->
+ 
   <div id="lightbox">
     <button id="lightbox-close">✕</button>
     <img id="lightbox-img" src="" alt="" />
@@ -238,39 +238,15 @@
 
   <script>
     const PHOTOS = {
-      "Schule_1970": [
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1970(1).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1970(2).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1970(3).jpg"
-      ],
-      "Schule_1980": [
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1980(1).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1980(2).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1980(3).jpg"
-      ],
-      "Schule_1990": [
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1990(1).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1990(2).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/1990(3).jpg"
-      ],
-      "Schule_2000": [
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/2000(1).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/2000(2).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/2000(3).jpg"
-      ],
-      "Schule_2010": [
-        "https://github.com/davakin228/fladeSchule/blob/main/flade%20schule.jpg?raw=true",
-        "https://github.com/davakin228/fladeSchule/blob/main/andere%20Schule.jpg?raw=true",
-        "https://github.com/davakin228/fladeSchule/blob/main/schule%20flade.jpg?raw=true"
-      ],
-      "Schule_heute": [
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/jetzt(1).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/jetzt(2).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/jetzt(3).jpg"
-      ]
+      "Schule_1970": ["1970(1).jpg", "1970(2).jpg", "1970(3).jpg"],
+      "Schule_1980": ["1980(1).jpg", "1980(2).jpg", "1980(3).jpg"],
+      "Schule_1990": ["1990(1).jpg", "1990(2).jpg", "1990(3).jpg"],
+      "Schule_2000": ["2000(1).jpg", "2000(2).jpg", "2000(3).jpg"],
+      "Schule_2010": ["2010(1).jpg", "2010(2).jpg", "2010(3).jpg"],
+      "Schule_heute": ["jetzt(1).jpg", "jetzt(2).jpg", "jetzt(3).jpg"]
     };
 
-    // ── Petals ──
+
     function createPetal() {
       const petal = document.createElement('div');
       petal.className = "petal";
@@ -296,7 +272,7 @@
     }
     setInterval(createPetal, 300);
 
-    // ── Slider ──
+ 
     const popup = document.getElementById("popup");
     const popupTitle = document.getElementById("popup-title");
     const popupText = document.getElementById("popup-text");
@@ -415,7 +391,7 @@
 
     overlay.addEventListener("click", closePopup);
 
-    // ── Music ──
+
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('musicBtn');
     bgMusic.volume = 0.15;
@@ -468,7 +444,7 @@
 
     dropdownMenu.addEventListener('click', function(e) { e.stopPropagation(); });
 
-    // ── Lightbox ──
+   
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxClose = document.getElementById('lightbox-close');

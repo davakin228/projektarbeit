@@ -28,13 +28,52 @@
     }
     .slider-btn:hover { background: #d4687e; color: white; border-color: #d4687e; }
     #popup-img {
-      width: 260px; height: 180px;
+      width: 300px; height: 200px;
       object-fit: cover;
       border-radius: 12px;
-      transition: opacity 0.15s ease;
+      transition: opacity 0.15s ease, transform 0.2s ease;
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       flex-shrink: 0;
+      cursor: zoom-in;
     }
+    #popup-img:hover { transform: scale(1.03); }
+
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      animation: fadeIn 0.2s ease;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox-img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      animation: zoomIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    #lightbox-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 100000;
+    }
+    #lightbox-close:hover { background: rgba(255,255,255,0.3); transform: scale(1.1); }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes zoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     #popup-dots {
       display: flex;
       justify-content: center;
@@ -161,7 +200,7 @@
         <h2 id="popup-title"></h2>
         <div class="slider-wrap" id="slider-wrap">
           <button class="slider-btn" id="btn-prev">&#8592;</button>
-          <img id="popup-img" src="" alt="Foto" />
+          <img id="popup-img" src="" alt="Foto" title="Klicken zum Vergrößern" />
           <button class="slider-btn" id="btn-next">&#8594;</button>
         </div>
         <div id="popup-dots"></div>
@@ -172,6 +211,12 @@
     <audio id="bg-music" loop>
       <source src="https://github.com/davakin228/fladeSchule/raw/refs/heads/main/siarhei_korbut-japanese-flower-pixabay-329408.mp3" type="audio/mpeg">
     </audio>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox">
+    <button id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" />
   </div>
 
   <button class="music-btn" id="musicBtn" title="Musik an/aus">🎵</button>
@@ -185,6 +230,8 @@
     <a class="menu-item" href="index.html"><span class="menu-item-icon">🌸</span> Titelscreen</a>
     <div class="menu-divider-line"></div>
     <a class="menu-item" href="#"><span class="menu-item-icon">🌳</span> Flade Baum</a>
+    <div class="menu-divider-line"></div>
+    <a class="menu-item" href="quiz.html"><span class="menu-item-icon">📝</span> Quiz</a>
     <div class="menu-divider-line"></div>
     <a class="menu-item" href="https://www.flade.ch" target="_blank"><span class="menu-item-icon">🔗</span> flade.ch</a>
   </div>
@@ -212,9 +259,9 @@
         "https://raw.githubusercontent.com/davakin228/FOTOS-/main/2000(3).jpg"
       ],
       "Schule_2010": [
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/2010(1).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/2010(2).jpg",
-        "https://raw.githubusercontent.com/davakin228/FOTOS-/main/2010(3).jpg"
+        "https://github.com/davakin228/fladeSchule/blob/main/flade%20schule.jpg?raw=true",
+        "https://github.com/davakin228/fladeSchule/blob/main/andere%20Schule.jpg?raw=true",
+        "https://github.com/davakin228/fladeSchule/blob/main/schule%20flade.jpg?raw=true"
       ],
       "Schule_heute": [
         "https://raw.githubusercontent.com/davakin228/FOTOS-/main/jetzt(1).jpg",
@@ -223,6 +270,7 @@
       ]
     };
 
+    // ── Petals ──
     function createPetal() {
       const petal = document.createElement('div');
       petal.className = "petal";
@@ -248,6 +296,7 @@
     }
     setInterval(createPetal, 300);
 
+    // ── Slider ──
     const popup = document.getElementById("popup");
     const popupTitle = document.getElementById("popup-title");
     const popupText = document.getElementById("popup-text");
@@ -366,7 +415,7 @@
 
     overlay.addEventListener("click", closePopup);
 
-
+    // ── Music ──
     const bgMusic = document.getElementById('bg-music');
     const musicBtn = document.getElementById('musicBtn');
     bgMusic.volume = 0.15;
@@ -397,6 +446,7 @@
       document.removeEventListener('mousemove', startOnMove);
     });
 
+    // ── Hamburger ──
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const dropdownMenu = document.getElementById('dropdownMenu');
     let menuOpen = false;
@@ -417,6 +467,26 @@
     });
 
     dropdownMenu.addEventListener('click', function(e) { e.stopPropagation(); });
+
+    // ── Lightbox ──
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    popupImg.addEventListener('click', function(e) {
+      e.stopPropagation();
+      lightboxImg.src = popupImg.src;
+      lightbox.classList.add('open');
+    });
+
+    function closeLightbox() { lightbox.classList.remove('open'); }
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
   </script>
 </body>
 </html>
